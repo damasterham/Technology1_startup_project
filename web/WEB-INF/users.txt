@@ -1,0 +1,5 @@
+dude1;pass1;admin
+dude2;pass2;user
+dude3;pass3;user
+dude4;pass4;user
+dude5;pass5;user

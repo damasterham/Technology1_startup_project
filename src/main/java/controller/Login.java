@@ -1,14 +1,13 @@
-package com.faisal;
+package controller;
+
+import bussinesslogic.UserLogic;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,43 +16,13 @@ import java.util.logging.Logger;
  * mvn appengine:update
  * mvn appengine:devserver
  */
-public class MyServlet extends HttpServlet {
+public class Login extends HttpServlet
+{
 
-    private static Logger logger = Logger.getLogger(MyServlet.class.getName());
+    private static Logger logger = Logger.getLogger(Login.class.getName());
 
-    // Check if user from a text file containing usernames and passwords
-    private boolean isUser(String username, String password, String userDb)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        try
-        {
-            File f = new File(userDb);
-
-            Scanner s = new Scanner(f);
-            while (s.hasNextLine())
-            {
-                String line = s.nextLine();
-                String[] userAndPass = line.split(";");
-
-                if (userAndPass[0].equals(username) && userAndPass[1].equals(password))
-                {
-                    s.close();
-                    return true;
-                }
-            }
-
-            return  false;
-        }
-        catch (FileNotFoundException e)
-        {
-            logger.log(Level.INFO, "User db file not found");
-        }
-
-        return false;
-    }
-
-
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.log(Level.INFO, "doPost start...");
         logger.log(Level.INFO, "Username: " + request.getParameter("username"));
         logger.log(Level.INFO, "Password: " + request.getParameter("password"));
@@ -61,8 +30,15 @@ public class MyServlet extends HttpServlet {
 
         response.setContentType("text/html");
 
-        if (isUser(request.getParameter("username"), request.getParameter("password"), "users.txt"))
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        UserLogic.login(username, password, request);
+
+        if (request.getSession().getAttribute("user") != null)
         {
+//            request.getRequestDispatcher("/result.jsp");
+
             PrintWriter out = response.getWriter();
             String title = "Using POST Method to Read Form Data";
             String docType =
@@ -81,8 +57,10 @@ public class MyServlet extends HttpServlet {
                     "</ul>\n" +
                     "</body></html>");
         }
+
         else
         {
+            response.sendRedirect("index.html");
             logger.log(Level.INFO, "No user with that username and password");
         }
 
@@ -90,7 +68,8 @@ public class MyServlet extends HttpServlet {
         logger.log(Level.INFO, "doPost ended...");
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
         logger.log(Level.INFO, "doGet started...");
         response.setContentType("text/html");
 
