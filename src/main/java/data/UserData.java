@@ -3,10 +3,10 @@ package data;//
 import controller.Login;
 import model.User;
 
-import javax.sound.sampled.LineEvent;
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.Path;
+import java.io.InputStream;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,23 +18,23 @@ public class UserData
 
     private static Logger logger = Logger.getLogger(Login.class.getName());
 
-    private static final String db = "users.txt";
+    private static final String db = "/WEB-INF/users.txt";
 
-    public static User getUser(String username)
+    public static User getUser(String username, ServletContext context)
     {
-        String msg = "";
-        File folder = new File("/'");
-        File[] listOfFiles = folder.listFiles();
+//        String msg = "";
+//        File folder = new File("/'");
+//        File[] listOfFiles = folder.listFiles();
+//
+//        for (int i = 0; i < listOfFiles.length; i++) {
+//            if (listOfFiles[i].isFile()) {
+//                msg += "File " + listOfFiles[i].getName();
+//            } else if (listOfFiles[i].isDirectory()) {
+//                msg += "Directory " + listOfFiles[i].getName();
+//            }
+//        }
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                msg += "File " + listOfFiles[i].getName();
-            } else if (listOfFiles[i].isDirectory()) {
-                msg += "Directory " + listOfFiles[i].getName();
-            }
-        }
-
-        logger.log(Level.INFO, msg);
+        //logger.log(Level.INFO, msg);
 
         User user;
 
@@ -42,9 +42,11 @@ public class UserData
 
         try
         {
-            File f = new File(db);
+            InputStream in = context.getResourceAsStream(db);
 
-            Scanner s = new Scanner(f);
+            //File f = new File(db);
+
+            Scanner s = new Scanner(in);
             while (s.hasNextLine())
             {
                 String line = s.nextLine();
@@ -61,7 +63,7 @@ public class UserData
                 }
             }
 
-        } catch (FileNotFoundException e)
+        } catch (Exception e)
         {
             System.out.print(e.getMessage());
         }

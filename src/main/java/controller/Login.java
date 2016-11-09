@@ -33,7 +33,7 @@ public class Login extends HttpServlet
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        UserLogic.login(username, password, request);
+        UserLogic.login(username, password, request, this.getServletContext());
 
         if (request.getSession().getAttribute("user") != null)
         {

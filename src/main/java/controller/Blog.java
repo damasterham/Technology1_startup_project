@@ -4,6 +4,7 @@ import data.BlogData;
 import model.BlogPost;
 import model.User;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +23,9 @@ public class Blog extends HttpServlet
         if (user != null)
         {
             // Show blog post list with titles
-            List<BlogPost> allPosts = BlogData.getAllPosts();
+            List<BlogPost> allPosts = BlogData.getAllPosts(this.getServletContext());
 
-            allPosts.add(new BlogPost("Test","Test","Test"));
+            //allPosts.add(new BlogPost("Test","Test","Test"));
 
             if (user != null && user.getRole().equals("admin"))
             {
@@ -62,10 +63,10 @@ public class Blog extends HttpServlet
 
             if (!title.equals("") && !content.equals(""))
             {
-                BlogData.writePost(user,title,content);
+                BlogData.writePost(user,title,content, getServletContext());
             }
         }
 
-        request.getRequestDispatcher("WEB-INF/jsp/blogposts.jsp").forward(request,response);
+        response.sendRedirect("/Blog");
     }
 }
