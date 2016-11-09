@@ -61,7 +61,9 @@ public class Login extends HttpServlet
         else
         {
             response.sendRedirect("index.html");
-            logger.log(Level.INFO, "No user with that username and password");
+            logger.log(Level.INFO, "No user with that username and pas" +
+                    "" +
+                    "sword");
         }
 
 

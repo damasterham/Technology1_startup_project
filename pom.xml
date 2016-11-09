@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>mygroupid</groupId>
-    <artifactId>artifactid</artifactId>
+    <groupId>Chance</groupId>
+    <artifactId>1</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -27,15 +27,33 @@
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.appengine.tools</groupId>
+            <artifactId>appengine-gcs-client</artifactId>
+            <version>0.6</version>
+        </dependency>
+
+
 
         <!-- Test Dependencies -->
         <dependency>
@@ -115,6 +133,18 @@
 
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <!-- this is relative to the pom.xml directory -->
+                <directory>web</directory>
+                <!-- the list has a default value of ** -->
+                <includes>
+                    <include>WEB-INF/web.xml</include>
+                    <include>WEB-INF/appengine-web.xml</include>
+                    <include>index.jsp</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>
